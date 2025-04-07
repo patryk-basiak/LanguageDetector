@@ -33,8 +33,7 @@ def learning_process_0(training_data):
         learn_0(training_data, p)
 
 def learning_process(training_data):
-    for p in perceptrons:
-        learn(training_data, p)
+    learn(training_data, perceptrons)
 
 def read_files(path_name):
     l = []
@@ -52,7 +51,7 @@ def learn_0(test_list, perceptron):
         index += 1
         for l in test_list:
             computed = perceptron.compute_0(l[0])
-            decision = l[1] == perceptron.correct_path
+            decision = l[1] == perceptron.language
             perceptron.learn_0(l[0], decision, computed)
     print(f"Laps {index}")
 
@@ -78,19 +77,24 @@ def analyze(text, **kwargs):
         text = count_chars(text)
     outputs = []
     for perc in perceptrons:
-        outputs.append([perc.correct_path.split("\\")[-1], perc.compute(text)])
+        outputs.append([perc.language.split("\\")[-1], perc.compute(text)])
     return max(outputs, key= lambda pe: pe[1])
 
-def learn(train_list, perceptron):
-    index = 0
-    while index < 1000:
-        index += 1
-        total_error = 0.0
-        for l in train_list:
-            decision = 1 if l[1] == perceptron.correct_path else -1
-            error = perceptron.learn(l[0], decision)
-            total_error = float(0.5*(decision - perceptron.compute(l[0]))**0.5)
-        print(total_error)
-        if total_error < 0.01:
-            break
-    print(f"Laps {index}")
+def learn(training_data, perceptron):
+    for p in perceptron:
+        epoque = 0
+        while True:
+            to_break = 0
+            for inputs, language in training_data:
+                if language != p.language:
+                    continue
+                decision = 1 if language == p.language else -1
+                e = 0.5 * (decision - p.compute(inputs)) ** 2
+                p.learn(inputs, e)
+                epoque += 1
+                if e < 0.0001:
+                    to_break = 1
+                    break
+            if to_break:
+                break
+        print(f"Perceptron {p.language} uczył się {epoque} razy")

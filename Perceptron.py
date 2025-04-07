@@ -11,17 +11,15 @@ def normalize_vector(vector):
 class Perceptron:
     def __init__(self, alpha, dim, correct_path):
         self.alpha = alpha
-        self.correct_path = correct_path
-        self.weights = [random.uniform(-0.5, 0.5) for _ in range(dim)]
+        self.language = correct_path
+        self.weights = [0 for _ in range(dim)]
         self.threshold = 1
 
-    def learn(self, inputs, correct_value):
-        inputs = normalize_vector(inputs)
-        prediction = self.compute(inputs)
-        error = abs(correct_value - prediction)
-        if error > 0.01:
-            for w in range(len(self.weights)):
-                self.weights[w] += float(inputs[w]) * self.alpha * (correct_value - prediction)
+    def learn(self, inputs, error):
+        n_inputs = normalize_vector(inputs)
+        for w in range(len(self.weights)):
+            self.weights[w] += float(n_inputs[w]) * self.alpha * error
+        self.weights = normalize_vector(self.weights)
         return error
 
     def compute(self, inputs):
