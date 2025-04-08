@@ -2,7 +2,7 @@ import os
 
 from Perceptron import Perceptron
 
-perceptrons = [Perceptron(0.001, 26, x) for x in os.listdir('pliki do train i test/pliki do train i test/Train')]
+perceptrons = [Perceptron(0.01, 26, x) for x in os.listdir('pliki do train i test/pliki do train i test/Train')]
 def count_chars(string):
     if len(string) == 0:
         return [0]
@@ -53,7 +53,6 @@ def learn_0(test_list, perceptron):
             computed = perceptron.compute_0(l[0])
             decision = l[1] == perceptron.language
             perceptron.learn_0(l[0], decision, computed)
-    print(f"Laps {index}")
 
 def checked_answer_0(check_list, p):
     count_true = 0
@@ -96,7 +95,6 @@ def learn(training_data, perceptron):
                     break
             if to_break:
                 break
-        print(f"Perceptron {p.language} uczył się {epoque} razy")
 
 def new_perceptrons():
     global perceptrons

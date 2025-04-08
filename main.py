@@ -22,7 +22,7 @@ def main():
             correct += 1
         print("===")
     print(f"Test done with accuracy: {correct/ len(correct_answers)*100} ")
-    print(f"Test done with accuracy: {correct}/{len(correct_answers)} ")
+    print(f"Correct test: {correct}/{len(correct_answers)} ")
     #
     g = Gui()
 
@@ -40,7 +40,7 @@ def main_2():
             correct += 1
         print("===")
     print(f"Test done with accuracy: {correct / len(correct_answers) * 100} ")
-    print(f"Test done with accuracy: {correct}/{len(correct_answers)} ")
+    print(f"Correct test: {correct}/{len(correct_answers)} ")
 
 if __name__ == "__main__":
     main_2()
