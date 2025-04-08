@@ -2,7 +2,7 @@ import os
 
 from Perceptron import Perceptron
 
-perceptrons = [Perceptron(0.01, 26, x) for x in os.listdir('pliki do train i test/pliki do train i test/Train')]
+perceptrons = [Perceptron(0.001, 26, x) for x in os.listdir('pliki do train i test/pliki do train i test/Train')]
 def count_chars(string):
     if len(string) == 0:
         return [0]
@@ -58,17 +58,8 @@ def learn_0(test_list, perceptron):
 def checked_answer_0(check_list, p):
     count_true = 0
     for x in check_list:
-        correct_label = x[1] == p.correct_path
+        correct_label = x[1] == p.language
         if p.compute_0(x[0]) == correct_label:
-            count_true += 1
-    return count_true
-
-def checked_answer(check_list, p):
-    count_true = 0
-    for x in check_list:
-        expected = 1 if x[1] == p.correct_path else 0
-        predicted = 1 if p.compute(x[0]) >= p.threshold else 0
-        if predicted == expected:
             count_true += 1
     return count_true
 
@@ -78,6 +69,14 @@ def analyze(text, **kwargs):
     outputs = []
     for perc in perceptrons:
         outputs.append([perc.language.split("\\")[-1], perc.compute(text)])
+    return max(outputs, key= lambda pe: pe[1])
+
+def analyze_0(text, **kwargs):
+    if kwargs.get('data_form') == "String":
+        text = count_chars(text)
+    outputs = []
+    for perc in perceptrons:
+        outputs.append([perc.language.split("\\")[-1], perc.compute_0(text)])
     return max(outputs, key= lambda pe: pe[1])
 
 def learn(training_data, perceptron):
@@ -92,9 +91,13 @@ def learn(training_data, perceptron):
                 e = 0.5 * (decision - p.compute(inputs)) ** 2
                 p.learn(inputs, e)
                 epoque += 1
-                if e < 0.0001:
+                if e < 0.00001:
                     to_break = 1
                     break
             if to_break:
                 break
         print(f"Perceptron {p.language} uczył się {epoque} razy")
+
+def new_perceptrons():
+    global perceptrons
+    perceptrons = [Perceptron(0.001, 26, x) for x in os.listdir('pliki do train i test/pliki do train i test/Train')]

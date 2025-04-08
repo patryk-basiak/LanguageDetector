@@ -15,22 +15,6 @@ class Perceptron:
         self.weights = [0 for _ in range(dim)]
         self.threshold = 1
 
-    def learn(self, inputs, error):
-        n_inputs = normalize_vector(inputs)
-        for w in range(len(self.weights)):
-            self.weights[w] += float(n_inputs[w]) * self.alpha * error
-        self.weights = normalize_vector(self.weights)
-        return error
-
-    def compute(self, inputs):
-        inputs = normalize_vector(inputs)
-        if len(inputs) != len(self.weights):
-            raise ValueError("Inputs size is not equal to weights size")
-        value = 0
-        for x in range(len(inputs)):
-            value += float(inputs[x]) * self.weights[x]
-        return value
-
     def compute_0(self, inputs):
         if len(inputs) != len(self.weights):
             raise ValueError("Inputs size is not equal to weights size")
@@ -46,3 +30,19 @@ class Perceptron:
         for w in range(len(self.weights)):
             self.weights[w] += float(inputs[w]) * self.alpha * (correct_value - perceptron_decision)
         self.threshold += (correct_value - perceptron_decision) * (-1) * self.alpha
+
+    def learn(self, inputs, error):
+        n_inputs = normalize_vector(inputs)
+        for w in range(len(self.weights)):
+            self.weights[w] += float(n_inputs[w]) * self.alpha * error
+        self.weights = normalize_vector(self.weights)
+        return error
+
+    def compute(self, inputs):
+        inputs = normalize_vector(inputs)
+        if len(inputs) != len(self.weights):
+            raise ValueError("Inputs size is not equal to weights size")
+        value = 0
+        for x in range(len(inputs)):
+            value += float(inputs[x]) * self.weights[x]
+        return value
