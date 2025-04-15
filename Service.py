@@ -44,6 +44,15 @@ def read_files(path_name):
             if not os.path.isdir(os.path.join(dir_path, file)):
                 l.append([read_file(dir_path, file), dir_path.split("\\")[-1]])
     return l
+def read_test_data(path_name):
+    l = []
+    for (dir_path, dir_names, file_names) in os.walk(path_name):
+        if len(file_names) == 0:
+            continue
+        for file in file_names:
+            if not os.path.isdir(os.path.join(dir_path, file)):
+                l.append([read_file(dir_path, file), file])
+    return l
 
 def learn_0(test_list, perceptron):
     index = 0
