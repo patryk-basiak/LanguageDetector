@@ -3,11 +3,10 @@ import random
 
 from Perceptron import Perceptron
 from GUI import Gui
-from Service import read_files, analyze, learning_process, learning_process_0, perceptrons, new_perceptrons, analyze_0, \
-    read_test_data
+from Service import read_files, analyze, learning_process, learning_process_0, perceptrons, new_perceptrons, analyze_0
 
 training_data = read_files('pliki do train i test/pliki do train i test/Train')
-test_data = read_test_data("pliki do train i test/pliki do train i test/Test")
+test_data = read_files("pliki do train i test/pliki do train i test/Test")
 def main():
     learning_process(training_data)
     print("====")
